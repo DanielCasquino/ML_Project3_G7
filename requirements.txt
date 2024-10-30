@@ -1,1 +1,4 @@
-gdown
+opencv-python
+pandas
+pytubefix
+tf-keras

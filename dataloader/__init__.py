@@ -2,6 +2,9 @@ r"""
 DataLoader
 ===
 
+DEPRECATED. USE FEATUREX INSTEAD.
+
+
 Manages downloading, unzipping, and loading of train and test datasets.
 
 This module exports:
