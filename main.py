@@ -6,7 +6,7 @@ if (
     or not os.path.exists("y.txt")
     or not os.path.exists("z.txt")
 ):
-    extract_features_to_files(limit=10)
+    extract_features_to_files(limit=1000)
 
 x, y, z = load_features_from_files()
 

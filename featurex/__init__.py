@@ -68,22 +68,32 @@ def extract_features_to_files(
     # sorts both file list and dataframe by youtube_id, so they match when assigning labels
     video_files = sorted([f for f in os.listdir(video_path)])
     df = df.sort_values(by="youtube_id").reset_index(drop=True)
+
     # dictionary that maps each label to a number
     unique_labels = {str(label): i for (i, label) in enumerate(np.unique(df["label"]))}
+
     # we convert it to a list, so cluster i has label at index i
     unique_labels = [label_name for label_name, _ in unique_labels.items()]
 
     x_result = []  # will hold the feature vectors
     y_result = []  # will hold entry labels
-
+    
     for index, video_file in enumerate(video_files):
         if limit is not None and counter == limit:
             break
         try:
             print(f"Processing {index}: {video_file}")
             compound_path = os.path.join(video_path, video_file)
-            feat = feature_vector(compound_path, sampling_rate=16)
-            x_result.append(feat)  # appends a row of features
+
+            video_features = feature_vector(compound_path, sampling_rate=8)
+
+            # avoid corrupted videos
+            if isinstance(video_features, np.float64) or isinstance(video_features, float):
+                print(f"Video {video_file} is corrupted. Continuing with next video.")
+                continue
+            # this happened with some videos like 1azVHxhCCU0.mp4 and 1IQCtz7ZUzo.mp4, the program stopped and we lost like 2 hours of processing
+
+            x_result.append(video_features)  # appends a row of features
             y_result.append(
                 unique_labels.index(df["label"][index])
             )  # gets corresponding label
