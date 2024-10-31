@@ -1,5 +1,7 @@
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
+import matplotlib.pyplot as plt
+
 
 
 def pca(data, dim):
@@ -15,6 +17,18 @@ def pca(data, dim):
     eigen_vec_2 = eigen_vec[:, :dim]
 
     d3 = np.dot(d2, eigen_vec_2)
+
+    varianza = eigen_val / np.sum(eigen_val)
+    varianza_acumulada = np.cumsum(varianza)
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(range(1, len(varianza_acumulada) + 1), varianza_acumulada)
+    plt.xlabel('Features')
+    plt.ylabel('Varianza Acumulada')
+    plt.title('Análisis de features')
+    plt.grid(True)
+    plt.show()
+
     return d3
 
 

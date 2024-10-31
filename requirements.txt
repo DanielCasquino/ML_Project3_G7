@@ -3,3 +3,4 @@ pandas
 pytubefix
 tf-keras
 scikit-learn
+matplotlib
